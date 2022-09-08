@@ -1,0 +1,23 @@
+spring:
+  datasource:
+    url: jdbc:h2:file:/data/notedb
+    username: sa
+    password: password
+    driverClassName: org.h2.Driver
+  h2:
+    console:
+      enabled: true
+  jpa:
+    database-platform: org.hibernate.dialect.H2Dialect
+    generate-ddl: true
+    hibernate:
+      ddl-auto: create
+    defer-datasource-initialization: true
+
+server:
+  port: 8080
+  servlet:
+    context-path: /note-app
+
+file:
+  upload-image: upload/image

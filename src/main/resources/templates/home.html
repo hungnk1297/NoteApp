@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>All Notes</title>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+          rel="stylesheet">
+    <link href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css" rel="stylesheet">
+</head>
+
+<body class="container">
+<h1>Home Page</h1><br>
+<a class="navbar-brand" href="#" th:href="@{/user/logout}">Log out</a>
+
+<div class="container">
+    <h3>
+        Welcome, <i style="color: green" th:text="${session.username}"></i> <br>
+    </h3>
+
+    <!--    List Notes -->
+    <h4>Your Notes</h4>
+    <table border="2px solid gray" style="margin: 3px; padding: 3px">
+        <thead style="text-align: center">
+        <td>Title</td>
+        <td>Description</td>
+        <td>Type</td>
+        <td>Completed</td>
+        </thead>
+
+        <tbody>
+        <th:block th:each="note : ${allNotes}">
+            <tr>
+                <td style="margin: 10px">
+                    <a th:href="@{|/note/${note.getNoteID()}|}"
+                       th:text="${note.getTitle()}">
+                    </a></td>
+                <td style="margin: 10px" th:text="${note.getTextDescription()}"></td>
+                <td style="margin: 10px" th:text="${note.getType()}"></td>
+                <td style="margin: 10px" th:text="${note.isCompleted()}"></td>
+            </tr>
+        </th:block>
+        </tbody>
+    </table>
+    <!--    List Notes -->
+
+</div>
+</body>
+</html>

@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Oops!</title>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+          rel="stylesheet">
+    <link href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css" rel="stylesheet">
+
+</head>
+<body class="container">
+<h3 th:text="${timestamp}"></h3><br>
+<h1 th:text="${status}"></h1><br>
+<h4 th:text="${message}"></h4><br>
+<h3><a th:href="@{/}">Go Back</a> Or <a th:href="@{/home}">Home</a></h3>
+</body>
+</html>
