@@ -3,8 +3,10 @@ package com.vmo.hungnk.noteapp.model.response;
 import java.io.Serializable;
 import java.util.Set;
 import lombok.Builder;
+import lombok.Getter;
 import lombok.Setter;
 
+@Getter
 @Setter
 @Builder
 public class NoteResponseDTO implements Serializable {
@@ -28,5 +30,4 @@ public class NoteResponseDTO implements Serializable {
 
 //    Checkboxes
     private Set<NoteCheckboxResponseDTO> checkboxes;
-
 }

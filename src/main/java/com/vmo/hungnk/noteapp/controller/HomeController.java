@@ -2,8 +2,10 @@ package com.vmo.hungnk.noteapp.controller;
 
 import com.vmo.hungnk.noteapp.model.response.NoteResponseDTO;
 import com.vmo.hungnk.noteapp.service.NoteService;
+
 import java.util.List;
 import javax.servlet.http.HttpSession;
+
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
@@ -32,21 +34,17 @@ public class HomeController {
     }
 
     @GetMapping("/home")
-    public String home(Model model) {
+    public String home() {
         if (loggedIn()) {
             HttpSession session = getSession();
-            Long sessionUserID = (Long) session.getAttribute(LOGGED_IN_USER_ID);
+            if (session.getAttribute(LOGGED_IN_USER_ID) != null) {
+                Long sessionUserID = (Long) session.getAttribute(LOGGED_IN_USER_ID);
+                //  Get all Notes
+                session.setAttribute(ALL_NOTES, noteService.findAllNotesByUser(sessionUserID));
 
-            //  Get all Notes
-            List<NoteResponseDTO> sessionUserNotes;
-            if (session.getAttribute(ALL_NOTES) != null)
-                sessionUserNotes = (List<NoteResponseDTO>) session.getAttribute(ALL_NOTES);
-            else
-                sessionUserNotes = noteService.findAllNotesByUser(sessionUserID);
-
-            model.addAttribute(ALL_NOTES, sessionUserNotes);
-//            session.removeAttribute(ALL_NOTES);
-
+                //  Get UnCompleted Notes
+                session.setAttribute(UNCOMPLETED_NOTES, noteService.countUncompletedNotes(sessionUserID));
+            }
             return HOME;
         } else
             return INDEX;

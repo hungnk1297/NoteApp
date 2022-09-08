@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Create Image Note</title>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" rel="stylesheet">
+    <link href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css" rel="stylesheet">
+
+</head>
+<body>
+<div class="container">
+
+    <div class="row">
+        <div class="col-md-6 col-md-offset-3">
+            <h1>Create Image Note</h1>
+
+            <form method="POST" th:action="@{/note/text-image}">
+                <div class="form-group">
+                    <label for="title">Title</label>: <input autofocus
+                                                             class="form-control" id="title" name="title"
+                                                             placeholder="Title"
+                                                             required type="text"/>
+                </div>
+                <div class="form-group">
+                    <label for="textDescription">Description</label>: <input autofocus
+                                                                             class="form-control" id="textDescription"
+                                                                             name="textDescription"
+                                                                             placeholder="Description"
+                                                                             required/>
+                </div>
+
+                <div class="form-group">
+                    <div class="row">
+                        <div class="col-sm-6 col-sm-offset-3">
+                            <input class="form-control btn btn-primary" id="submit" name="submit"
+                                   type="submit" value="Create Note"/>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<script th:src="@{/webjars/jquery/3.2.1/jquery.min.js/}"
+        type="text/javascript"></script>
+<script th:src="@{/webjars/bootstrap/3.3.7/js/bootstrap.min.js}"
+        type="text/javascript"></script>
+</body>
+</html>

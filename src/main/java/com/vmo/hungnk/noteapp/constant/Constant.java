@@ -40,5 +40,12 @@ public class Constant {
         public static final String ERROR = "error";
         public static final String USER_LOGIN = "user/login";
         public static final String USER_REGISTER = "user/register";
+
+        public static final String NOTE = "note/";
+        public static final String NOTE_DETAIL = "note/detail";
+        public static final String NOTE_CREATE_TEXT = "note/create-text";
+        public static final String NOTE_CREATE_IMAGE = "note/create-image";
+        public static final String NOTE_CREATE_MULTI_CHECKBOXES = "note/create-multi-checkboxes";
+
     }
 }

@@ -25,6 +25,6 @@ public class NoteUser extends BaseEntity {
     @Column(name = "ENCRYPTED_PASSWORD")
     private String encryptedPassword;
 
-    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.PERSIST, mappedBy = "noteUser")
+    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.PERSIST, mappedBy = "noteUser")
     private List<Note> notes;
 }

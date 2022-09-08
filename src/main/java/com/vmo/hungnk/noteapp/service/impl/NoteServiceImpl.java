@@ -72,7 +72,8 @@ public class NoteServiceImpl implements NoteService {
             noteImageService.saveImage(userID, savingNote, noteRequestDTO.getImage());
 
         // Save checkboxes in case of Note type MULTI CHECKBOXES
-        if (!noteRequestDTO.getCheckboxRequestDTOS().isEmpty())
+        if (noteRequestDTO.getCheckboxRequestDTOS() != null
+                && !noteRequestDTO.getCheckboxRequestDTOS().isEmpty())
             saveCheckboxes(savingNote, noteRequestDTO.getCheckboxRequestDTOS());
 
         noteRepo.save(savingNote);

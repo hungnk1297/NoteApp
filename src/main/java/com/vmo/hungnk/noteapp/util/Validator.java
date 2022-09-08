@@ -22,7 +22,8 @@ public class Validator {
 
     public Note validateNoteAuthorization(Long userID, Long noteID) {
         NoteUser noteUser = validateUser(userID);
-        return noteUser.getNotes().stream().filter(note -> note.getNoteID().equals(noteID)).findFirst()
+        var notes = noteRepo.findAllByUserID(userID);
+        return notes.stream().filter(note -> note.getNoteID().equals(noteID)).findFirst()
                 .orElseThrow(() -> ExceptionUtil.invalidNoteAuthorization(noteUser.getUsername()));
     }
 

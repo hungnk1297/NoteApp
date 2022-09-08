@@ -17,6 +17,10 @@
         Welcome, <i style="color: green" th:text="${session.username}"></i> <br>
     </h3>
 
+    <h4><a th:href="@{/note/text}">Create Text Note</a></h4>
+    <h4><a th:href="@{/note/text-image}">Create Image Note</a></h4>
+    <h4><a th:href="@{/note/multi-checkboxes}">Create Multi-Checkboxes Note</a></h4>
+
     <!--    List Notes -->
     <h4>Your Notes</h4>
     <table border="2px solid gray" style="margin: 3px; padding: 3px">
@@ -28,14 +32,14 @@
         </thead>
 
         <tbody>
-        <th:block th:each="note : ${allNotes}">
+        <th:block th:each="note : ${session.allNotes}">
             <tr>
                 <td style="margin: 10px">
                     <a th:href="@{|/note/${note.getNoteID()}|}"
                        th:text="${note.getTitle()}">
                     </a></td>
                 <td style="margin: 10px" th:text="${note.getTextDescription()}"></td>
-                <td style="margin: 10px" th:text="${note.getType()}"></td>
+                <td style="margin: 10px" th:text="${note.getNoteType()}"></td>
                 <td style="margin: 10px" th:text="${note.isCompleted()}"></td>
             </tr>
         </th:block>
