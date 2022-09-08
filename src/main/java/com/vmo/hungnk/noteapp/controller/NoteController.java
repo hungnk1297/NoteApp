@@ -21,6 +21,13 @@ public class NoteController {
 
     private final NoteService noteService;
 
+    @ModelAttribute
+    public void addAttributes(Model model) {
+        model.addAttribute(NOTE_REQUEST, new NoteRequestDTO());
+        model.addAttribute(ALL_NOTES, null);
+        model.addAttribute(UNCOMPLETED_NOTES, 0);
+    }
+
     //  Create Text Note
     @GetMapping(path = "/text")
     public String getCreateText() {
@@ -30,8 +37,7 @@ public class NoteController {
     }
 
     @PostMapping("/text")
-    public String createTextNote(Model model,
-                                 @ModelAttribute("noteRequest") NoteRequestDTO noteRequestDTO) {
+    public String createTextNote(@ModelAttribute("noteRequest") NoteRequestDTO noteRequestDTO) {
         Long userID = loggedInUserID();
         noteRequestDTO.setNoteType(NoteType.TEXT.getValue());
         NoteResponseDTO createdNote = noteService.saveNote(userID, noteRequestDTO);
@@ -39,36 +45,46 @@ public class NoteController {
         Long noteID = createdNote.getNoteID();
         return REDIRECT + NOTE + noteID;
     }
-    //  Create Text Note
 
     //  Create Text Image Note
     @GetMapping(path = "/text-image")
     public String getCreateTextImage() {
+        if (!loggedIn())
+            return USER_LOGIN;
         return NOTE_CREATE_IMAGE;
     }
 
     @PostMapping("text-image")
-    public String createTextImageNote(Model model,
-                                      @ModelAttribute("noteRequest") NoteRequestDTO noteRequestDTO) {
-        //  TODO
-        return NOTE_CREATE_IMAGE;
+    public String createTextImageNote(
+            @ModelAttribute("noteRequest") NoteRequestDTO noteRequestDTO) {
+        Long userID = loggedInUserID();
+        noteRequestDTO.setNoteType(NoteType.IMAGE.getValue());
+        NoteResponseDTO createdNote = noteService.saveNote(userID, noteRequestDTO);
+
+        Long noteID = createdNote.getNoteID();
+        return REDIRECT + NOTE + noteID;
     }
-    //  Create Text Image Note
 
     //  Create Multi-Checkboxes Note
     @GetMapping(path = "/multi-checkboxes")
     public String getCreateMultiCheckboxes() {
+        if (!loggedIn())
+            return USER_LOGIN;
         return NOTE_CREATE_MULTI_CHECKBOXES;
     }
 
     @PostMapping("multi-checkboxes")
-    public String createMultiCheckboxes(Model model,
-                                        @ModelAttribute("noteRequest") NoteRequestDTO noteRequestDTO) {
-        //  TODO
-        return NOTE_CREATE_MULTI_CHECKBOXES;
-    }
-    //  Create Multi-Checkboxes Note
+    public String createMultiCheckboxes(
+            @ModelAttribute("noteRequest") NoteRequestDTO noteRequestDTO) {
+        Long userID = loggedInUserID();
+        noteRequestDTO.setNoteType(NoteType.MULTI_OPTION.getValue());
+        NoteResponseDTO createdNote = noteService.saveNote(userID, noteRequestDTO);
 
+        Long noteID = createdNote.getNoteID();
+        return REDIRECT + NOTE + noteID;
+    }
+
+    //  Get Note Detail
     @GetMapping(path = "/{noteID}")
     public String getNoteDetail(@PathVariable("noteID") Long noteID, Model model) {
         if (!loggedIn())
@@ -79,11 +95,37 @@ public class NoteController {
         return NOTE_DETAIL;
     }
 
-    @ModelAttribute
-    public void addAttributes(Model model) {
-        model.addAttribute(NOTE_REQUEST, new NoteRequestDTO());
-        model.addAttribute(ALL_NOTES, null);
-        model.addAttribute(UNCOMPLETED_NOTES, 0);
+    //  Update Note
+    @PutMapping(path = "/{noteID}")
+    public String updateNote(@PathVariable("noteID") Long noteID,
+                             @ModelAttribute("noteRequest") NoteRequestDTO noteRequestDTO,
+                             Model model) {
+        if (!loggedIn())
+            return USER_LOGIN;
+
+        NoteResponseDTO updatedNote = noteService.saveNote(loggedInUserID(), noteRequestDTO);
+        model.addAttribute("noteDetail", updatedNote);
+        return REDIRECT + NOTE + noteID;
+    }
+
+    //  Toggle Complete Note
+    @PatchMapping(path = "/{noteID}/toggle")
+    public String toggleCompleteNote(@PathVariable("noteID") Long noteID) {
+        if (!loggedIn())
+            return USER_LOGIN;
+
+        noteService.toggleCompleteNote(loggedInUserID(), noteID);
+        return REDIRECT + HOME;
+    }
+
+    //  Delete Note
+    @DeleteMapping(path = "/{noteID}")
+    public String deleteNote(@PathVariable("noteID") Long noteID) {
+        if (!loggedIn())
+            return USER_LOGIN;
+
+        noteService.deleteNote(loggedInUserID(), noteID);
+        return REDIRECT + HOME;
     }
 
 }
