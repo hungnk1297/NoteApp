@@ -16,6 +16,7 @@ import com.vmo.hungnk.noteapp.util.ExceptionUtil;
 import com.vmo.hungnk.noteapp.util.Validator;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
@@ -39,6 +40,7 @@ public class NoteServiceImpl implements NoteService {
 
     //      Utils
     private final Validator validator;
+    private final ModelMapper modelMapper;
 
     @Override
     public List<NoteResponseDTO> findAllNotesByUser(Long userID) {

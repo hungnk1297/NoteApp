@@ -13,6 +13,7 @@ import java.util.Optional;
 import javax.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -21,6 +22,8 @@ import org.springframework.stereotype.Service;
 public class UserServiceImpl implements UserService {
 
     private final UserRepository userRepo;
+
+    private final ModelMapper modelMapper;
 
     @Transactional
     @Override
@@ -32,7 +35,7 @@ public class UserServiceImpl implements UserService {
             .build();
 
         noteUser = userRepo.save(noteUser);
-        return toUserResponseDTO(noteUser);
+        return modelMapper.map(noteUser, UserResponseDTO.class);
     }
 
     @Override
@@ -47,7 +50,7 @@ public class UserServiceImpl implements UserService {
             throw ExceptionUtil.invalidCredential(requestDTO.getUsername());
         }
 
-        return toUserResponseDTO(loggingInNoteUser);
+        return modelMapper.map(loggingInNoteUser, UserResponseDTO.class);
     }
 
     @Transactional
@@ -76,12 +79,5 @@ public class UserServiceImpl implements UserService {
         } catch (NoSuchAlgorithmException e) {
             throw new RuntimeException(e);
         }
-    }
-
-    private UserResponseDTO toUserResponseDTO(NoteUser noteUser) {
-        return UserResponseDTO.builder()
-            .userID(noteUser.getUserID())
-            .username(noteUser.getUsername())
-            .build();
     }
 }
